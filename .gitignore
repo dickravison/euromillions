@@ -1,0 +1,3 @@
+src/*.zip
+tf/.terraform
+tf/.terraform.lock.hcl
