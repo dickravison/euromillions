@@ -7,7 +7,7 @@ URL = "https://www.national-lottery.co.uk/games/euromillions"
 SNS_TOPIC = os.environ['SNS_TOPIC']
 SNS_CLIENT = boto3.client('sns')
 THRESHOLD = 100
-NOTIFICATIONS_ENABLED = os.environ.get('NOTIFICATIONS_ENABLED')
+NOTIFICATIONS_ENABLED = os.environ['NOTIFICATIONS_ENABLED']
 
 def publish(message):
     SNS_CLIENT.publish(
@@ -25,7 +25,8 @@ def main(event, context):
     if int(jackpot) > THRESHOLD:
         message = "The Euromillions jackpot tonight is <b>£" + jackpot + " million</b>."
         print(message)
-        if NOTIFICATIONS_ENABLED:
+        #Env vars imported from Lambda come in as string rather than bool
+        if NOTIFICATIONS_ENABLED == "true":
             publish(message)
         else:
             print("Notifications disabled.")
